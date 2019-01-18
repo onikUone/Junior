@@ -1,0 +1,33 @@
+island9
+	overFit
+		phoneme			fitness0': 17.49948591404483, 'fitness1': 24.0
+		satimage		'fitness0': 15.852184424106373, 'fitness1': 15.0
+	interval50
+		phoneme			'fitness0': 15.484268969771744, 'fitness1': 6.0
+		satimage		'fitness0': 13.486444482818166, 'fitness1': 8.0
+
+island7
+	overFit
+		phoneme			'fitness0': 17.35554184659675, 'fitness1': 18.0
+		satimage		'fitness0': 15.437748230012089, 'fitness1': 14.0
+	interval50
+		phoneme			'fitness0': 16.718075262183838, 'fitness1': 7.0
+		satimage		'fitness0': 14.522534968053877, 'fitness1': 6.0
+		
+island5
+	overFit
+		phoneme			'fitness0': 16.10117211597779, 'fitness1': 35.0
+		satimage		'fitness0': 14.194439647729235, 'fitness1': 33.0}
+	interval50
+		phoneme			'fitness0': 15.669339913633559, 'fitness1': 7.0
+		satimage		'fitness0': 12.64030391987567, 'fitness1': 9.0
+
+island3
+	overFit
+		phoneme			
+		satimage		
+	interval50
+		phoneme			
+		satimage		
+		
+		
