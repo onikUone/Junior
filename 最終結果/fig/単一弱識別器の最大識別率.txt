@@ -30,4 +30,5 @@ island3
 		phoneme			
 		satimage		
 		
-		
+		10.0Å|40.0
+		0-30

@@ -226,8 +226,8 @@ class ResultMaster() :
         popNum = len(fitnessX)
         axes_0.scatter(fitnessX, fitnessY, s=100, linewidths=1, edgecolors='black', label="popSize : " + str(popNum))
 
-        axes_0.set_ylabel("Error Rate")
-        axes_0.set_xlabel("The Number of Rules")
+        axes_0.set_ylabel("Error Rate [%]")
+        axes_0.set_xlabel("The Number of Rules [-]")
         axes_0.legend()
         axes_0.set_xlim([0, 30])
         axes_0.set_ylim([0.0, 40.0])
@@ -238,7 +238,7 @@ class ResultMaster() :
 
     # 多目的空間における各島の弱識別器の可視化
     #     各CVの弱識別器集合を引数として与える
-    def showNonDomiIslandPop(self, _list) :
+    def showNonDomiIslandPop(self, _list, xmin, xmax, ymin, ymax) :
         fig_nonDomi = plt.figure(figsize=(5, 5))
         axes_0 = fig_nonDomi.add_subplot(111)
 #         axes_0.set_title("NonDomination Basic Classifiers from Each Islands")
@@ -246,6 +246,8 @@ class ResultMaster() :
         for i in range(self.islandNum) :
             fitnessX = []
             fitnessY = []
+            missRateX = []
+            missRateY = []
             for basic in _list :
                 if basic[0]["island_i"] == i :
                     fitnessX.append(basic[0]["fitness1"])
@@ -253,11 +255,11 @@ class ResultMaster() :
             popNum = len(fitnessX)
             axes_0.scatter(fitnessX, fitnessY, s=100, linewidths=1, edgecolors='black', label="island" + str(i) + " : " + str(popNum))
 
-        axes_0.set_ylabel("Error Rate")
-        axes_0.set_xlabel("The Number of Rules")
-        axes_0.legend()
-        axes_0.set_xlim([0, 30])
-        axes_0.set_ylim([10.0, 40.0])
+        axes_0.set_ylabel("Error Rate", fontsize=16)
+        axes_0.set_xlabel("The Number of Rules", fontsize=16)
+#        axes_0.legend()
+        axes_0.set_xlim([xmin, xmax])
+        axes_0.set_ylim([ymin, ymax])
         axes_0.tick_params(axis='both', direction='in', bottom=True, top=True, left=True, right=True)
         axes_0.tick_params(axis='both', which='major', length=6)
         
@@ -313,11 +315,22 @@ def readMissRate(_path, _list) :
     for i in range(len(_list)):
         _list[i] =  [float(s) for s in _list[i]]
 
+
+def averageFitnessSingle(_list):
+    ave = 0
+    for i in range(30):
+        ave += _list[i][0]["fitness0"]
+    ave /= 30
+    print(100 - ave)
+
+    
+
+
 # main
 
 # 各種インスタンス
-#overFit_3_phoneme = ResultMaster('./overFit_island3_phoneme', 3)
-#overFit_3_satimage = ResultMaster('./overFit_island3_satimage', 3)
+overFit_3_phoneme = ResultMaster('./overFit_island3_phoneme', 3)
+overFit_3_satimage = ResultMaster('./overFit_island3_satimage', 3)
 overFit_5_phoneme = ResultMaster('./overFit_island5_phoneme', 5)
 overFit_5_satimage = ResultMaster('./overFit_island5_satimage', 5)
 overFit_7_phoneme = ResultMaster('./overFit_island7_phoneme', 7)
@@ -325,8 +338,8 @@ overFit_7_satimage = ResultMaster('./overFit_island7_satimage', 7)
 overFit_9_phoneme = ResultMaster('./overFit_island9_phoneme', 9)
 overFit_9_satimage = ResultMaster('./overFit_island9_satimage', 9)
 
-#interval50_3_phoneme = ResultMaster('./interval50_island3_phoneme', 3)
-#interval50_3_satimage = ResultMaster('./interval50_island3_satimage', 3)
+interval50_3_phoneme = ResultMaster('./interval50_island3_phoneme', 3)
+interval50_3_satimage = ResultMaster('./interval50_island3_satimage', 3)
 interval50_5_phoneme = ResultMaster('./interval50_island5_phoneme', 5)
 interval50_5_satimage = ResultMaster('./interval50_island5_satimage', 5)
 interval50_7_phoneme = ResultMaster('./interval50_island7_phoneme', 7)
@@ -335,11 +348,11 @@ interval50_9_phoneme = ResultMaster('./interval50_island9_phoneme', 9)
 interval50_9_satimage = ResultMaster('./interval50_island9_satimage', 9)
 
 # 各種インスタンス初期化
-#overFit_3_phoneme.getMissRates()
-#overFit_3_phoneme.getRuleSet()
-#overFit_3_satimage.getMissRates()
-#overFit_3_satimage.getRuleSet()
-#print('overFit_island3 ok.')
+overFit_3_phoneme.getMissRates()
+overFit_3_phoneme.getRuleSet()
+overFit_3_satimage.getMissRates()
+overFit_3_satimage.getRuleSet()
+print('overFit_island3 ok.')
 
 overFit_5_phoneme.getMissRates()
 overFit_5_phoneme.getRuleSet()
@@ -359,11 +372,11 @@ overFit_9_satimage.getMissRates()
 overFit_9_satimage.getRuleSet()
 print('overFit_island9 ok.')
 
-#interval50_3_phoneme.getMissRates()
-#interval50_3_phoneme.getRuleSet()
-#interval50_3_satimage.getMissRates()
-#interval50_3_satimage.getRuleSet()
-#print('interval50_island3 ok.')
+interval50_3_phoneme.getMissRates()
+interval50_3_phoneme.getRuleSet()
+interval50_3_satimage.getMissRates()
+interval50_3_satimage.getRuleSet()
+print('interval50_island3 ok.')
 
 interval50_5_phoneme.getMissRates()
 interval50_5_phoneme.getRuleSet()
@@ -387,30 +400,40 @@ print('interval50_island9 ok.')
 # i = 1
 # fig = a.showNonDomiIslandPop(a.Global_NonDomi[i])
 # fig = a.showNonDomiIslandPop(a.Local_NonDomi[i])
+#
+#fig = overFit_9_phoneme.showNonDomiIslandPop(overFit_9_phoneme.Global_Single[0])
+#fig.savefig('fig2\island9_overFit_phoneme_Global_Single_0')
+#fig = overFit_9_satimage.showNonDomiIslandPop(overFit_9_satimage.Global_Single[0])
+#fig.savefig('fig2\island9_overFit_satimage_Global_Single_0')
+#fig = interval50_9_phoneme.showNonDomiIslandPop(interval50_9_phoneme.Global_Single[0])
+#fig.savefig('fig2\island9_interval50_phoneme_Global_Single_0')
+#fig = interval50_9_satimage.showNonDomiIslandPop(interval50_9_satimage.Global_Single[0])
+#fig.savefig('fig2\island9_interval50_satimage_Global_Single_0')
+#
+#fig = overFit_7_phoneme.showNonDomiIslandPop(overFit_7_phoneme.Global_Single[0])
+#fig.savefig('fig2\island7_overFit_phoneme_Global_Single_0')
+#fig = overFit_7_satimage.showNonDomiIslandPop(overFit_7_satimage.Global_Single[0])
+#fig.savefig('fig2\island7_overFit_satimage_Global_Single_0')
+#fig = interval50_7_phoneme.showNonDomiIslandPop(interval50_7_phoneme.Global_Single[0])
+#fig.savefig('fig2\island7_interval50_phoneme_Global_Single_0')
+#fig = interval50_7_satimage.showNonDomiIslandPop(interval50_7_satimage.Global_Single[0])
+#fig.savefig('fig2\island7_interval50_satimage_Global_Single_0')
+#
+#fig = overFit_5_phoneme.showNonDomiIslandPop(overFit_5_phoneme.Global_Single[0])
+#fig.savefig('fig2\island5_overFit_phoneme_Global_Single_0')
+#fig = overFit_5_satimage.showNonDomiIslandPop(overFit_5_satimage.Global_Single[0])
+#fig.savefig('fig2\island5_overFit_satimage_Global_Single_0')
+#fig = interval50_5_phoneme.showNonDomiIslandPop(interval50_5_phoneme.Global_Single[0])
+#fig.savefig('fig2\island5_interval50_phoneme_Global_Single_0')
+#fig = interval50_5_satimage.showNonDomiIslandPop(interval50_5_satimage.Global_Single[0])
+#fig.savefig('fig2\island5_interval50_satimage_Global_Single_0')
+#
+#fig = overFit_3_phoneme.showNonDomiIslandPop(overFit_3_phoneme.Global_Single[0])
+#fig.savefig('fig2\island3_overFit_phoneme_Global_Single_0')
+#fig = overFit_3_satimage.showNonDomiIslandPop(overFit_3_satimage.Global_Single[0])
+#fig.savefig('fig2\island3_overFit_satimage_Global_Single_0')
+#fig = interval50_3_phoneme.showNonDomiIslandPop(interval50_3_phoneme.Global_Single[0])
+#fig.savefig('fig2\island3_interval50_phoneme_Global_Single_0')
+#fig = interval50_3_satimage.showNonDomiIslandPop(interval50_3_satimage.Global_Single[0])
+#fig.savefig('fig2\island3_interval50_satimage_Global_Single_0')
 
-fig = overFit_9_phoneme.showNonDomiIslandPop(overFit_9_phoneme.Global_Single[0])
-fig.savefig('fig2\island9_overFit_phoneme_Global_Single_0')
-fig = overFit_9_satimage.showNonDomiIslandPop(overFit_9_satimage.Global_Single[0])
-fig.savefig('fig2\island9_overFit_satimage_Global_Single_0')
-fig = interval50_9_phoneme.showNonDomiIslandPop(interval50_9_phoneme.Global_Single[0])
-fig.savefig('fig2\island9_interval50_phoneme_Global_Single_0')
-fig = interval50_9_satimage.showNonDomiIslandPop(interval50_9_satimage.Global_Single[0])
-fig.savefig('fig2\island9_interval50_satimage_Global_Single_0')
-
-fig = overFit_7_phoneme.showNonDomiIslandPop(overFit_7_phoneme.Global_Single[0])
-fig.savefig('fig2\island7_overFit_phoneme_Global_Single_0')
-fig = overFit_7_satimage.showNonDomiIslandPop(overFit_7_satimage.Global_Single[0])
-fig.savefig('fig2\island7_overFit_satimage_Global_Single_0')
-fig = interval50_7_phoneme.showNonDomiIslandPop(interval50_7_phoneme.Global_Single[0])
-fig.savefig('fig2\island7_interval50_phoneme_Global_Single_0')
-fig = interval50_7_satimage.showNonDomiIslandPop(interval50_7_satimage.Global_Single[0])
-fig.savefig('fig2\island7_interval50_satimage_Global_Single_0')
-
-fig = overFit_5_phoneme.showNonDomiIslandPop(overFit_5_phoneme.Global_Single[0])
-fig.savefig('fig2\island5_overFit_phoneme_Global_Single_0')
-fig = overFit_5_satimage.showNonDomiIslandPop(overFit_5_satimage.Global_Single[0])
-fig.savefig('fig2\island5_overFit_satimage_Global_Single_0')
-fig = interval50_5_phoneme.showNonDomiIslandPop(interval50_5_phoneme.Global_Single[0])
-fig.savefig('fig2\island5_interval50_phoneme_Global_Single_0')
-fig = interval50_5_satimage.showNonDomiIslandPop(interval50_5_satimage.Global_Single[0])
-fig.savefig('fig2\island5_interval50_satimage_Global_Single_0')
