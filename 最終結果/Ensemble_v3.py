@@ -323,7 +323,36 @@ def averageFitnessSingle(_list):
     ave /= 30
     print(100 - ave)
 
-    
+def showNonDomiIslandPop(_instance, _tryNum, xmin, xmax, ymin, ymax) :
+    fig_nonDomi = plt.figure(figsize=(5, 5))
+    axes_0 = fig_nonDomi.add_subplot(111)
+    _list = _instance.Global_NonDomi[_tryNum]
+#         axes_0.set_title("NonDomination Basic Classifiers from Each Islands")
+
+    for i in range(_instance.islandNum) :
+        fitnessX = []
+        fitnessY = []
+        missRateX = []
+        missRateY = []
+        for basic in _list :
+            if basic[0]["island_i"] == i :
+                fitnessX.append(basic[0]["fitness1"])
+                fitnessY.append(basic[0]["fitness0"])
+        popNum = len(fitnessX)
+#        axes_0.scatter(fitnessX, fitnessY, s=100, linewidths=1, edgecolors='black', label="island" + str(i) + " : " + str(popNum))
+        axes_0.scatter(fitnessX, fitnessY, s=100, linewidths=1, edgecolors='black', label="island" + str(i))
+
+    axes_0.set_ylabel("Error Rate", fontsize=16)
+    axes_0.set_xlabel("The Number of Rules", fontsize=16)
+    axes_0.legend(prop={'size':16}, fontsize=12)
+    axes_0.set_xlim([xmin, xmax])
+    axes_0.set_ylim([ymin, ymax])
+    axes_0.tick_params(axis='both', direction='in', bottom=True, top=True, left=True, right=True)
+    axes_0.tick_params(axis='both', which='major', length=6)
+    axes_0.tick_params(labelsize=16)
+        
+    return fig_nonDomi    
+
 
 
 # main
