@@ -257,7 +257,7 @@ class ResultMaster() :
 
         axes_0.set_ylabel("Error Rate", fontsize=16)
         axes_0.set_xlabel("The Number of Rules", fontsize=16)
-#        axes_0.legend()
+        axes_0.legend(fontsize=16, prop={'size': 12,})
         axes_0.set_xlim([xmin, xmax])
         axes_0.set_ylim([ymin, ymax])
         axes_0.tick_params(axis='both', direction='in', bottom=True, top=True, left=True, right=True)
